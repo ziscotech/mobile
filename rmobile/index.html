@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Summary Dropdown</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .order-summary-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    
+    .order-summary-content.expanded {
+      max-height: 1000px;
+      transition: max-height 0.5s ease-in;
+    }
+    
+    .chevron-icon {
+      transition: transform 0.3s ease;
+    }
+    
+    .chevron-icon.up {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto px-4 py-6 max-w-md">
+    <!-- Mobile Order Summary Toggle -->
+    <div class="bg-white shadow-sm rounded-md">
+      <div id="order-summary-toggle" class="flex items-center justify-between p-4 cursor-pointer">
+        <div class="flex items-center">
+          <svg id="chevron-icon" class="chevron-icon w-5 h-5 text-teal-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+          <span id="summary-text" class="font-medium">Show order summary</span>
+        </div>
+        <div class="bg-teal-500 text-white font-medium px-4 py-2 rounded-md">
+          €20.60
+        </div>
+      </div>
+      
+      <!-- Order Summary Content (Hidden by default) -->
+      <div id="order-summary-content" class="order-summary-content border-t">
+        <div class="p-4">
+          <!-- Product -->
+          <div class="flex items-center mb-6">
+            <div class="w-16 h-16 bg-gray-200 rounded-md overflow-hidden mr-3 relative">
+              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-idFuGJV4GMX4DQbgVwtBBDdxkCvstA.png" alt="Coffee Plant" class="w-full h-full object-cover">
+              <div class="absolute top-0 left-0 bg-teal-500 text-white w-6 h-6 flex items-center justify-center rounded-full text-xs">1</div>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-medium">Coffee Plant</h3>
+                </div>
+                <span class="font-medium">€15.00</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Price Breakdown -->
+          <div class="space-y-4 text-sm">
+            <div class="flex justify-between">
+              <span>Subtotal</span>
+              <span class="font-medium">€15.00</span>
+            </div>
+            
+            <div class="flex justify-between">
+              <span>Discount</span>
+              <div class="text-right">
+                <span class="font-medium">-€0.75</span>
+                <span class="block text-teal-500 text-xs">SALE</span>
+              </div>
+            </div>
+            
+            <div class="flex justify-between">
+              <span>VAT</span>
+              <div class="text-right">
+                <span class="font-medium">€2.85</span>
+                <span class="block text-gray-500 text-xs">19.00%</span>
+              </div>
+            </div>
+            
+            <div class="flex justify-between">
+              <div>
+                <span>Checkify Rate 1</span>
+                <span class="block text-gray-500 text-xs">Best checkout ever</span>
+              </div>
+              <span class="text-teal-500">Free</span>
+            </div>
+            
+            <div class="flex justify-between">
+              <span>Tip</span>
+              <span class="font-medium">€3.50</span>
+            </div>
+            
+            <!-- Special Offer -->
+            <div class="flex items-center justify-between py-3 border-t">
+              <div class="flex items-center">
+                <div class="w-12 h-12 bg-gray-200 rounded-md overflow-hidden mr-3">
+                  <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-idFuGJV4GMX4DQbgVwtBBDdxkCvstA.png" alt="Coffee Plant" class="w-full h-full object-cover">
+                </div>
+                <div>
+                  <span class="font-medium text-sm">Buy 1 Get 2 - Coffee Plant</span>
+                  <span class="text-xs text-gray-500 block">Special offer for you</span>
+                </div>
+              </div>
+              <span class="text-teal-500">Free</span>
+            </div>
+            
+            <!-- Total -->
+            <div class="flex justify-between font-semibold text-lg pt-3 border-t">
+              <span>Total</span>
+              <span>€20.60</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('order-summary-toggle');
+      const content = document.getElementById('order-summary-content');
+      const chevron = document.getElementById('chevron-icon');
+      const summaryText = document.getElementById('summary-text');
+      let isExpanded = false;
+      
+      toggle.addEventListener('click', function() {
+        isExpanded = !isExpanded;
+        
+        if (isExpanded) {
+          content.classList.add('expanded');
+          chevron.classList.add('up');
+          summaryText.textContent = 'Hide order summary';
+        } else {
+          content.classList.remove('expanded');
+          chevron.classList.remove('up');
+          summaryText.textContent = 'Show order summary';
+        }
+      });
+      
+      // Only show the toggle on mobile screens
+      function handleResize() {
+        const isMobile = window.innerWidth < 768;
+        toggle.parentElement.style.display = isMobile ? 'block' : 'none';
+      }
+      
+      // Initial check
+      handleResize();
+      
+      // Listen for window resize
+      window.addEventListener('resize', handleResize);
+    });
+  </script>
+</body>
+</html>
+
